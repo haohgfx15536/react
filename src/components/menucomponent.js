@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Media } from 'reactstrap';
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap'; 
 
 class Menu extends Component {
 
@@ -7,92 +7,50 @@ class Menu extends Component {
         super(props);
 
         this.state = {
-            dishes: [
-                {
-                    id: 0,
-                    name: 'Uthappizza',
-                    image: 'assets/images/uthappizza.png',
-                    category: 'mains',
-                    label: 'Hot',
-                    price: '4.99',
-                    description: 'A unique combination of India'
+            selectedDish: null
+        }
+    }
 
-                },
-                {
-                    id: 1,
-                    name: 'Uthappizza',
-                    image: 'assets/images/buffet.png',
-                    category: 'mains',
-                    label: 'Hot',
-                    price: '4.99',
-                    description: 'A unique combination of India'
+    onDishSelect(dish) {
+        this.setState({ selectedDish: dish });
+    }
 
-                },
-                {
-                    id: 2,
-                    name: 'Uthappizza',
-                    image: 'assets/images/elaicheesecake.png',
-                    category: 'mains',
-                    label: 'Hot',
-                    price: '4.99',
-                    description: 'A unique combination of India'
-
-                },
-                {
-                    id: 3,
-                    name: 'Uthappizza',
-                    image: 'assets/images/logo.png',
-                    category: 'mains',
-                    label: 'Hot',
-                    price: '4.99',
-                    description: 'A unique combination of India'
-
-                },
-                {
-                    id: 4,
-                    name: 'Uthappizza',
-                    image: 'assets/images/vadonut.png',
-                    category: 'mains',
-                    label: 'Hot',
-                    price: '4.99',
-                    description: 'A unique combination of India'
-
-                },
-                {
-                    id: 5,
-                    name: 'Uthappizza',
-                    image: 'assets/images/zucchipakoda.png',
-                    category: 'mains',
-                    label: 'Hot',
-                    price: '4.99',
-                    description: 'A unique combination of India'
-
-                }
-            ]
+    rederDish(dish) {
+        if (dish != null) {
+                return(
+                    <Card>
+                        <CardImg width="100%" object src={dish.image} alt={dish.name} />
+                        <CardBody>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>{dish.description}</CardText>
+                        </CardBody>
+                    </Card>
+                );
+        }
+        else{
+            <></>
         }
     }
 
     render() {
-        const menu = this.state.dishes.map((dish) => {
+        const menu = this.props.dishes.map((dish) => {
             return (
-                <Media key={dish.id} tag="li" className="col-12 mt-5">
-                    <Media left middle>
-                        <Media object src={dish.image} alt={dish.name} />
-                    </Media>
-                    <Media body className="ml-5">
-                        <Media heading>{dish.name}</Media>
-                        <p>{dish.description}</p>
-                    </Media>
-                </Media>
+                <Card onClick={() => this.onDishSelect(dish)} key={dish.id} className="col-12 col-md-5 mt-1">
+                    <CardImg width="100%" object src={dish.image} alt={dish.name} />
+                    <CardImgOverlay>
+                        <CardTitle>{dish.name}</CardTitle>
+                    </CardImgOverlay>
+                </Card>
             )
         });
 
         return (
             <div className="container">
                 <div className="row">
-                    <Media list>
-                        {menu}
-                    </Media>
+                    {menu}
+                </div>
+                <div className="row">
+                    {this.rederDish(this.state.selectedDish)}
                 </div>
             </div>
         );
